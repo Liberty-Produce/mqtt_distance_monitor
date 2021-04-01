@@ -32,6 +32,7 @@ sonar_pins = {
 
 # Topic to publish sonar module readings to via mqtt. Module number will be added to end of this string as a
 # unique identifier.
+MQTT_BROKER = 'mqtt-broker.icenilabs.com'
 MQTT_TOPIC = 'arduino/distance'
 
 
@@ -41,7 +42,7 @@ def main():
             # initialise pymata library
             board = pymata4.Pymata4()
             # initialise mqtt connection
-            mqtt_client = setup_mqtt()
+            mqtt_client = setup_mqtt(MQTT_BROKER)
             # instantiate each sonar module
             sonars = [Sonar(board, name, pins.trigger_pin, pins.echo_pin) for name, pins in sonar_pins.items()]
             # start reading loop
@@ -54,8 +55,7 @@ def main():
             sys.exit(0)
 
 
-def setup_mqtt(mqtt_broker: str = 'mqtt-broker.icenilabs.com', mqtt_port: int = 1883,
-               keep_alive: int = 60) -> mqtt.Client:
+def setup_mqtt(mqtt_broker: str, mqtt_port: int = 1883, keep_alive: int = 60) -> mqtt.Client:
     """
     Sets up mqtt client connection to specified broker and return client object.
 
