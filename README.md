@@ -1,4 +1,4 @@
-# Multi-module distance monitor utilising HC-SR04 sonar modules, Arduino, RaspberryPi, and MQTT protocol.
+# Multi-module distance monitor utilising HC-SR04 sonar modules, Arduino, RaspberryPi, MQTT, and Node-RED
 
 ## What does this do?
 
