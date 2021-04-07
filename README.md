@@ -35,9 +35,10 @@ This project uses the following software / libraries:
 - [FirmataExpress](https://www.arduino.cc/reference/en/libraries/firmataexpress/) - Accepts control commands via USB
 
 ### Raspberry Pi
+
 - [Python3](https://www.python.org) - Runs the script
 - [pymata4](https://pypi.org/project/pymata4/) - Sends control commands to the Arduino via USB
-- [Eclipse Paho MQTT Python Client](https://pypi.org/project/paho-mqtt/) - Sends readings via MQTT
+- [paho-mqtt](https://pypi.org/project/paho-mqtt/) - Sends readings via MQTT
 
 ### Raspberry Pi or network connected PC
 
@@ -56,6 +57,96 @@ Wire the HC-SR04 modules to the Arduino as follows:
 - green: trigger - receives read command from Arduino
 - yellow: echo - sends distance signal to Arduino
 
-You may use whichever pins on the Arduino you like, just  make sure you update the script as required.
+You may use whichever pins on the Arduino you like, just make sure you update the script as required.
 
 ![diagram](docs_images/4x_HC-SR04_(arduino).png)
+
+### Step 2: Upload FirmataExpress onto the Arduino
+The easiest way is to use the official Arduino IDE
+
+1. Go to "Tools > Manage Libraries"
+  to [download and install the FirmataExpress library](https://www.arduino.cc/reference/en/libraries/firmataexpress/)
+1. Go to "File > Examples > FirmataExpress > FirmataExpress" to open the FirmataExpress code.
+1. Upload onto the Arduino
+
+### Step 3: Setup the Raspberry Pi
+1. Set up the Pi with the latest Raspberry Pi OS
+1. Update Pi and install dependencies
+   ```shell
+   $ sudo apt update && sudo apt -y dist-upgrade
+   $ sudo apt install python3
+   ```
+1. Connect Raspberry Pi to the Arduino with a USB cable (any port is fine)
+
+### Step 4: Download and install python script
+Either clone or download this repo and move the distance_monitor directory containing distance_monitor.py into a
+directory of your choice.  
+   For this example we'll be using /opt/distance_monitor. **Note you'll need to use sudo to move
+   files into /opt.**  
+
+1. Move scrip directory to /opt:
+
+    ```shell
+    $ cd ~/distance_monitor-main  # or wherever you downloaded this repo
+    $ sudo mv distance_monitor/ /opt
+    ```     
+
+1. Check files were moved correctly
+    ```shell
+    $ ls /opt/distance_monitor
+   
+   # should return:
+   distance_monitor.py  requirements.txt
+   ```
+
+### Step 5: Install Python dependencies
+1. Create and activate virtual environment (optional but recommended)
+    ```shell
+    $ cd /opt/distance_monitor
+    $ python3 -m venv venv 
+    $ source venv/bin/activate
+    ```
+
+1. Use pip3 to install dependencies listed in requirements.txt  
+   `$ pip3 install -r requirements.txt`
+
+**The code can now be run via this command (if you get USB permission issues run as sudo):**  
+    
+```shell
+$ /opt/distance_monitor/venv/bin/python3 /opt/distance_monitor/distance_monitor.py
+```
+
+`CMD+C` will stop the programme
+
+### Step 6: Make the script run at startup using systemd (optional)
+If you're happy to run this script manually or have some other way to running it you can skip this step.  
+This example assumes you'll be running the script as root, but your needs may vary.
+
+1. Copy distance_monitor.service to the systemd directory
+
+   ```shell
+   $ cd ~/distance_monitor-main  # or wherever you downloaded this repo
+   $ sudo cp raspberrypi/distance_monitor.service /etc/systemd/system/
+   ```
+1. Ensure Python and script paths are correct
+    ```shell
+    $ sudo nano /etc/systemd/system/distance_monitor.service
+    ```
+
+1. Check that ExecStart and WorkingDirectory point to the right files. Change these to match wherever you put the script.
+   ```ini
+   [Service]  
+   ExecStart=/opt/distance_monitor/venv/bin/python3 /opt/distance_monitor/distance_monitor.py  
+   WorkingDirectory=/opt/distance_monitor/
+   ```
+       
+1. Reload daemon to ensure systemd sees the new file
+    ```shell
+    $ sudo systemctl daemon-reload
+    ```
+
+1. Set the service to run at boot  
+    ```shell
+    $ sudo systemctl enable distance_monitor
+    ```   
+
