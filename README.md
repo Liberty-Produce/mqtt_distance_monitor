@@ -106,7 +106,18 @@ For this example we'll be using /opt/distance_monitor. **Note you'll need to use
    ````
    You should see the following files listed:
    > distance_monitor.py  
-   > requirements.txt
+   > requirements.txt  
+   
+**Do the next steps once you've finished step 7 and installed an MQTT broker**
+3. Open `distance_monitor.py` with your favourite editor
+   ```shell
+   $ nano /opt/distance_monitor/distance_monitor.py 
+   ```
+   
+1. Replace `mqtt-broker` with the url of your mqtt broker. No need to include the port.
+   ```python
+   MQTT_BROKER = '<mqtt-broker-ip-address>'
+   ```
 
 ### Step 5: Install Python dependencies
 
@@ -234,21 +245,24 @@ another Debian / Ubuntu machine then you can follow the Raspberry Pi section.
 
 1. Install the `node-red-dashboard` node module to your palette using
    the [guide on the Node-RED website](https://nodered.org/docs/user-guide/runtime/adding-nodes).  
-   The easiest way is via the `Manage Pallet` option in the main menu of the Palette Manager.
+   The easiest way is via the `Manage Pallet` option in the main menu of the Palette Manager.  
    ![nodered palette manager](https://nodered.org/docs/user-guide/editor/images/editor-user-settings-palette-install.png)
 
-1. Open the `Import nodes` dialogue in the main menu, press `select a file to import`.
+1. Open the `Import nodes` dialogue in the main menu, press `select a file to import`.  
    ![nodered import](https://nodered.org/docs/user-guide/editor/images/editor-import.png)
 
 1. Navigate to `~/distance_monitor-main/node_red/mqtt_dashboard.json`, select `Open`, then `Import`. A new editor tab
    named `mqtt distance dashboard` should appear at the top.
+   
 1. Double-click each mqtt input node and enter the correct address for the mqtt broker. If you're running everything on
    the same machine this will be `localhost:1833`, otherwise it will be `<ip-address>:1833`. If successful you'll see a
-   green square and a `connected` message beneath each mqtt input node.
+   green square and a `connected` message beneath each mqtt input node.  
    ![nodered editor](docs_images/editor.png)
+   
 1. Press the red `Deploy` button to save changes.
+   
 1. In a new browser window enter `http://localhost:1880/ui` if accessing locally or `http://<ip-address>:1880/ui` if
-   accessing remotely to open the dashboard.
+   accessing remotely to open the dashboard.  
    ![nodered dashboard](docs_images/dashboard.png)
 
 ### Step 10: Play around!
