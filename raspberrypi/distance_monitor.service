@@ -1,0 +1,13 @@
+[Unit]
+Description=Distance Monitor
+After=network.target
+
+[Service]
+ExecStart=/opt/distance_monitor/venv/bin/python3 /opt/distance_monitor/distance_monitor.py
+Restart=always
+RestartSec=10s
+WorkingDirectory=/opt/distance_monitor/
+User=root
+
+[Install]
+WantedBy=multi-user.target
