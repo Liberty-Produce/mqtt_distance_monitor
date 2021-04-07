@@ -6,8 +6,8 @@ This project allows remote monitoring of one or more HC-SR04 sonar modules.
 
 The modules plug into an Arduino, the Arduino is controlled by a Raspberry Pi, and the Raspberry Pi sends the data to a
 NodeRed dashboard via the MQTT protocol.
----
 
+---
 ## What should I know before starting this project?
 
 - How to [set up a Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up)
