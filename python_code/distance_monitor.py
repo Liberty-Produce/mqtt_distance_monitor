@@ -6,7 +6,7 @@ Arduino via USB port.
 
 Readings are sent to an mqtt broker via the RaspberryPi's ethernet connection.
 
-Wiring diagram: 'docs and images/4x_HC-SR04_(arduino).png'
+Wiring diagram: 'docs_images/4x_HC-SR04_(arduino).png'
 
 Versions:
 1.0 - Initial release
