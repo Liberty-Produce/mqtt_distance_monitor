@@ -241,7 +241,7 @@ another Debian / Ubuntu machine then you can follow the Raspberry Pi section.
    ![nodered import](https://nodered.org/docs/user-guide/editor/images/editor-import.png)
 
 1. Navigate to `~/distance_monitor-main/node_red/mqtt_dashboard.json`, select `Open`, then `Import`. A new editor tab
-   named `rpi gpio mqtt` should appear at the top.
+   named `mqtt distance dashboard` should appear at the top.
 1. Double-click each mqtt input node and enter the correct address for the mqtt broker. If you're running everything on
    the same machine this will be `localhost:1833`, otherwise it will be `<ip-address>:1833`. If successful you'll see a
    green square and a `connected` message beneath each mqtt input node.
