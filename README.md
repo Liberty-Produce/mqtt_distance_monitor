@@ -10,8 +10,8 @@ NodeRed dashboard via the MQTT protocol.
 ## What should I know before starting this project?
 
 - How to [set up a Raspberry Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up)
-- How to [wire up Arduino pins and uploading code via the IDE](https://www.arduino.cc/en/Tutorial/Foundations).
-- How to install [Python3](https://www.python.org) and run a script.
+- How to [wire up Arduino pins and upload code via the IDE](https://www.arduino.cc/en/Tutorial/Foundations).
+- How to install [Python3](https://wiki.python.org/moin/BeginnersGuide/Download) and run a script.
 - How to install [Node-RED](https://nodered.org/docs/getting-started)
   and [import a flow](https://nodered.org/docs/user-guide/editor/workspace/import-export)
 - Basic familiarity of the [Firmata controller protocol](https://github.com/firmata/protocol).
@@ -25,11 +25,6 @@ This project as it's currently configured requires the following:
 - [Arduino](https://www.arduino.cc/en/main/products) ([MEGA2560](https://store.arduino.cc/arduino-mega-2560-rev3) used
   but any modern board will probably work)
 - One or more [HC-SR04 sonar modules](https://learn.adafruit.com/ultrasonic-sonar-distance-sensors) (project uses 4)
-
-The HC-SR04 modules are wired to the Arduino as follows. You may use whichever pins on the Arduino you like but make
-sure you update the script as required.
-
-![diagram](docs_images/4x_HC-SR04_(arduino).png)
 
 ## What code is needed?
 
@@ -49,3 +44,18 @@ This project uses the following software / libraries:
 - [Mosquitto MQTT Broker](https://mosquitto.org/) - Receives readings sent via MQTT and allow other devices to subscribe
   to those readings
 - [Node-RED](https://nodered.org/) - Displays readings received via MQTT on a dashboard
+
+## Project steps
+
+### Step 1: Setup the Arduino pins
+
+Wire the HC-SR04 modules to the Arduino as follows:
+
+- red: 5v power - powers the module
+- black: ground - completes the circuit
+- green: trigger - receives read command from Arduino
+- yellow: echo - sends distance signal to Arduino
+
+You may use whichever pins on the Arduino you like, just  make sure you update the script as required.
+
+![diagram](docs_images/4x_HC-SR04_(arduino).png)
