@@ -32,7 +32,7 @@ sonar_pins = {
 
 # Topic to publish sonar module readings to via mqtt. Module number will be added to end of this string as a
 # unique identifier.
-MQTT_BROKER = 'mqtt-broker.icenilabs.com'
+MQTT_BROKER = 'mqtt-broker'
 MQTT_TOPIC = 'arduino/distance'
 
 
