@@ -109,6 +109,7 @@ For this example we'll be using /opt/distance_monitor. **Note you'll need to use
    > requirements.txt  
    
 **Do the next steps once you've finished step 7 and installed an MQTT broker**
+
 3. Open `distance_monitor.py` with your favourite editor
    ```shell
    $ nano /opt/distance_monitor/distance_monitor.py 
