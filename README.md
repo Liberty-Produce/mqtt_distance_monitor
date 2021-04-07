@@ -93,20 +93,20 @@ Either clone or download this repo and move the distance_monitor directory conta
 directory of your choice.  
 For this example we'll be using /opt/distance_monitor. **Note you'll need to use sudo to move files into /opt.**
 
-1. Move scrip directory to /opt:
+1. Copy scrip directory to /opt:
 
     ```shell
     $ cd ~/distance_monitor-main  # or wherever you downloaded this repo
-    $ sudo mv distance_monitor/ /opt
+    $ sudo cp distance_monitor/ /opt
     ```     
 
 1. Check files were moved correctly
     ```shell
     $ ls /opt/distance_monitor
-   
-   # should return:
-   distance_monitor.py  requirements.txt
-   ```
+   ````
+   You should see the following files listed:
+   > distance_monitor.py  
+   > requirements.txt
 
 ### Step 5: Install Python dependencies
 
@@ -166,6 +166,12 @@ This example assumes you'll be running the script as root, but your needs may va
     ```shell
     $ sudo systemctl enable distance_monitor
     ```
+1. Check service was enabled successfully
+   ```shell
+   $ sudo systemctl status distance_monitor
+   ```
+   Second line should read something like:
+   > Loaded: loaded (/etc/systemd/system/distance_monitor.service; enabled; vendor preset: enabled)
 
 1. Start the service manually (optional)
     ```shell
@@ -193,7 +199,58 @@ works locally.
     ```
    Save & close with `CMD + O` and  `CMD + X`
 
-Note this opens up the mosquitto service to **all machines connected to the network** and has no security or authentication
-enabled. Steps for securing mosquitto are available but are outside the scope of this guide.
+Note this opens up the mosquitto service to **all machines connected to the network** and has no security or
+authentication enabled. Steps for securing mosquitto are available but are outside the scope of this guide.
 
 ### Step 8: Setup Node-RED
+
+Head to the Node-RED getting started page and follow the instructions. If you're installing onto the Raspberry Pi or
+another Debian / Ubuntu machine then you can follow the Raspberry Pi section.
+
+1. Install dependencies
+   ```shell
+   $ sudo apt install curl
+   ```
+1. Run Node-RED install script
+   ```shell
+   $ bash <(curl -sL https://raw.githubusercontent.com/node-red/linux-installers/master/deb/update-nodejs-and-nodered)
+   ```
+   If the install was successful you should get an `All done` message on the screen and be provided with some options on
+   how to start the Node-RED programme. Easiest is just to enter `node-red-start` in the terminal.
+
+1. Run Node-RED as a service on startup (optional)  
+   If you want to set Node-RED to run every time the machine boots up, just do the following.
+
+   ```shell
+   $ sudo systemctl enable nodered.service
+   ```
+
+### Step 9: Run Node-RED and connect to MQTT broker
+
+1. Start Node-RED however you prefer
+
+1. In a web browser enter `http://localhost:1880` if accessing locally or `http://<ip-address>:1880` if accessing
+   remotely.
+
+1. Install the `node-red-dashboard` node module to your palette using
+   the [guide on the Node-RED website](https://nodered.org/docs/user-guide/runtime/adding-nodes).  
+   The easiest way is via the `Manage Pallet` option in the main menu of the Palette Manager.
+   ![nodered palette manager](https://nodered.org/docs/user-guide/editor/images/editor-user-settings-palette-install.png)
+
+1. Open the `Import nodes` dialogue in the main menu, press `select a file to import`.
+   ![nodered import](https://nodered.org/docs/user-guide/editor/images/editor-import.png)
+
+1. Navigate to `~/distance_monitor-main/node_red/mqtt_dashboard.json`, select `Open`, then `Import`. A new editor tab
+   named `rpi gpio mqtt` should appear at the top.
+1. Double-click each mqtt input node and enter the correct address for the mqtt broker. If you're running everything on
+   the same machine this will be `localhost:1833`, otherwise it will be `<ip-address>:1833`. If successful you'll see a
+   green square and a `connected` message beneath each mqtt input node.
+   ![nodered editor](docs_images/editor.png)
+1. Press the red `Deploy` button to save changes.
+1. In a new browser window enter `http://localhost:1880/ui` if accessing locally or `http://<ip-address>:1880/ui` if
+   accessing remotely to open the dashboard.
+   ![nodered dashboard](docs_images/dashboard.png)
+
+### Step 10: Play around!
+The options are limitless!  
+Check out [Node-RED's documentation](https://nodered.org/docs/user-guide) for some guided help.
